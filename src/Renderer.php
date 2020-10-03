@@ -10,7 +10,6 @@ use RuntimeException;
 use Throwable;
 
 use function array_key_exists;
-use function array_pop;
 use function extract;
 use function func_get_arg;
 use function get_class;
@@ -44,19 +43,19 @@ final class Renderer
     private ?string $layout = null;
 
     /**
-     * @var array<string, mixed> global variables that will be available in all views.
+     * @var string|null name of the block currently being rendered.
      */
-    private array $globalVars = [];
-
-    /**
-     * @var string[] names of the block currently being rendered.
-     */
-    private array $blockNames = [];
+    private ?string $blockName = null;
 
     /**
      * @var array<string, string> of blocks content.
      */
     private array $blocks = [];
+
+    /**
+     * @var array<string, mixed> global variables that will be available in all views.
+     */
+    private array $globalVars = [];
 
     /**
      * @var array<string, ExtensionInterface>
@@ -157,22 +156,33 @@ final class Renderer
      * Begins recording a block.
      *
      * @param string $name block name.
+     * @throws RuntimeException if you try to nest a block in other block.
      * @see block()
      */
     public function beginBlock(string $name): void
     {
-        $this->blockNames[] = $name;
+        if ($this->blockName) {
+            throw new RuntimeException('You cannot nest blocks within other blocks.');
+        }
+
+        $this->blockName = $name;
         ob_start();
     }
 
     /**
      * Ends recording a block.
      *
+     * @throws RuntimeException If you try to end a block without beginning it.
      * @see block()
      */
     public function endBlock(): void
     {
-        $this->block((string) array_pop($this->blockNames), ob_get_clean());
+        if ($this->blockName === null) {
+            throw new RuntimeException('You must begin a block before can end it.');
+        }
+
+        $this->block($this->blockName, ob_get_clean());
+        $this->blockName = null;
     }
 
     /**

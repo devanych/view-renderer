@@ -90,6 +90,12 @@ class RendererTest extends TestCase
         $this->renderer->endBlock();
     }
 
+    public function testEndBlockThrowRuntimeExceptionWhenTryingEndBlockNotBeginBlock(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->renderer->endBlock();
+    }
+
     public function testRenderSingleView(): void
     {
         $this->assertSame('<p>Content</p>', $this->render('views/single'));
