@@ -148,11 +148,10 @@ class RendererTest extends TestCase
 
     public function testEncodeAndDecode(): void
     {
-        $decoded = '<script>alert(123);</script>';
-        $encoded = '&lt;script&gt;alert(123);&lt;/script&gt;';
-        $this->assertSame($encoded, $this->renderer->encode($decoded));
-        $this->assertSame($decoded, $this->renderer->decode($encoded));
-        $this->assertSame($decoded, $this->renderer->decode($decoded));
+        $this->assertSame(
+            '&lt;script&gt;alert(123);&lt;/script&gt;',
+            $this->renderer->esc('<script>alert(123);</script>')
+        );
     }
 
     public function testAddExtensionAndCallMagic(): void

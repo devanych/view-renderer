@@ -14,7 +14,6 @@ use function extract;
 use function func_get_arg;
 use function get_class;
 use function htmlspecialchars;
-use function htmlspecialchars_decode;
 use function is_dir;
 use function ltrim;
 use function ob_end_clean;
@@ -245,25 +244,14 @@ final class Renderer
     }
 
     /**
-     * Encodes special characters into HTML entities.
+     * Escapes special characters, converts them to corresponding HTML entities.
      *
-     * @param string $content content to be encoded.
-     * @return string encoded content.
+     * @param string $content content to be escaped.
+     * @return string escaped content.
      */
-    public function encode(string $content): string
+    public function esc(string $content): string
     {
         return htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', true);
-    }
-
-    /**
-     * Decodes special HTML entities back to the corresponding characters.
-     *
-     * @param string $content content to be decoded.
-     * @return string decoded content.
-     */
-    public function decode(string $content): string
-    {
-        return htmlspecialchars_decode($content, ENT_QUOTES);
     }
 
     /**
