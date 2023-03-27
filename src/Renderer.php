@@ -204,7 +204,7 @@ final class Renderer
      * @return string rendered view content.
      * @throws RuntimeException if the view file does not exist or is not a file.
      * @throws Throwable If an error occurred during rendering.
-     * @psalm-suppress RedundantCondition
+     * @psalm-suppress RedundantCondition, NoValue
      */
     public function render(string $view, array $params = []): string
     {
