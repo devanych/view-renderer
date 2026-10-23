@@ -18,8 +18,6 @@ Highlights:
 * Easy extensibility by adding custom functions.
 * Flexible layout functionality with unlimited nesting.
 
-A guide with a detailed description in Russian language is [available here](https://devanych.ru/development/rendering-nativnyh-php-predstavlenij).
-
 ## Installation
 
 This package requires PHP version 7.4 or later.
